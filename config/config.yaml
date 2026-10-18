@@ -1,0 +1,74 @@
+# ==============================================================================
+# Wearable AI Security Assistant - Global Configuration
+# ==============================================================================
+
+system:
+  project_name: "Wearable AI Visual Threat Detection Assistant"
+  version: "0.2.0-high-accuracy"
+  debug: true
+
+# Camera & Video Stream Settings (Configured for 2K QHD 60 FPS)
+camera:
+  source: 0                 # 0 for default laptop webcam, or path to video file / RTSP stream
+  width: 2560
+  height: 1440
+  fps: 60                   # 2K QHD 60 FPS target (DirectShow + MJPG)
+  auto_reconnect: true
+
+# AI Detection Model Settings (Specialized Weapon Threat Model)
+model:
+  weights: "models/trained/weapon_yolov8_custom_best.pt" # Custom trained weapon model
+  confidence_threshold: 0.45                             # Calibrated confidence threshold
+
+  iou_threshold: 0.45                              # Non-maximum suppression threshold
+  img_size: 640                                    # 640 for optimal precision
+  device: "auto"                                   # "cuda", "cpu", or "auto"
+  
+  # Temporal Consistency & False-Positive Elimination
+  temporal_confirmation_frames: 2 # Threat must persist for at least 2 consecutive frames to trigger alert
+  enable_tracking: true            # Use ByteTrack multi-frame object tracking
+  min_box_area_ratio: 0.003        # Reject microscopic false-positive noise (< 0.3% of screen)
+  max_box_area_ratio: 0.85         # Reject unrealistic full-frame blobs (> 85% of screen)
+
+  # Target threat classes to detect
+  threat_classes:
+    - name: "gun"
+      display_name: "Firearm / Gun"
+      alert_priority: "CRITICAL"
+      min_confidence: 0.50
+    - name: "knife"
+      display_name: "Knife / Edged Weapon"
+      alert_priority: "HIGH"
+      min_confidence: 0.50
+    - name: "grenade"
+      display_name: "Explosive Weapon"
+      alert_priority: "CRITICAL"
+      min_confidence: 0.55
+
+# Alert & Notification Settings
+alerts:
+  cooldown_seconds: 3.0 # Minimum delay between duplicate audio alerts to prevent alarm spam
+  audio:
+    enabled: true
+    speech_warning: true # Use text-to-speech for audible warning
+    voice_rate: 165
+    volume: 1.0
+  visual:
+    enabled: true
+    show_hud: true
+    bounding_box_color: [0, 0, 255] # Red in BGR for threats
+    safe_box_color: [0, 255, 0]      # Green in BGR
+    display_fps: true
+    display_confidence: true
+    flash_screen_on_threat: true
+  logging:
+    enabled: true
+    log_dir: "logs/detections"
+    save_threat_snapshots: true
+
+# Privacy & Compliance Rules (Enforced by design)
+privacy:
+  facial_recognition_enabled: false # Strictly disabled
+  concealed_weapon_mode: false      # Visual-only system
+  anonymize_faces: false            # Optional: blur faces for privacy
+  store_full_video: false           # Only snapshots on verified alerts to protect privacy

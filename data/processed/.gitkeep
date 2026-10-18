@@ -1,0 +1,3 @@
+# Processed YOLO format dataset:
+# images/train, images/val, images/test
+# labels/train, labels/val, labels/test

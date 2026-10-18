@@ -1,0 +1,41 @@
+# Wearable AI Security Assistant - Ignore Patterns
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+env/
+.venv/
+ENV/
+
+# Model Checkpoints & Large Weights
+models/trained/*.pt
+models/trained/*.onnx
+models/trained/*.engine
+models/pretrained/*.pt
+*.weights
+
+# Datasets & Media
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+*.mp4
+*.avi
+*.mkv
+*.jpg
+*.jpeg
+*.png
+
+# Logs, Runs & Runs from YOLO
+runs/
+*.log
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

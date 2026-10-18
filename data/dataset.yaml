@@ -1,0 +1,12 @@
+# Custom YOLO Weapon Detection Dataset
+path: C:/Users/Raju/Downloads/idea 1/data/processed
+train: images/train
+val: images/val
+
+# Classes:
+# 0: firearm
+# 1: knife
+nc: 2
+names:
+  0: firearm
+  1: knife
